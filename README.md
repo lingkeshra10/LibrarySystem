@@ -42,8 +42,6 @@ This API provides functionality for managing books, including registering, retri
 
 ### Borrow Management related API
 
-## Borrower Management API
-
 | Endpoint                          | Method | Description |
 |-----------------------------------|--------|-------------|
 | `/borrower/add`                            | `POST`  | Add a new borrower. Checks if the email already exists before registration. |
