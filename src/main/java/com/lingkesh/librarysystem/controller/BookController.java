@@ -156,6 +156,14 @@ public class BookController {
         //Check book id exist or not
         Optional<Book> checkBookIDExist = bookService.findExistById(bookId);
         if(checkBookIDExist.isPresent()){
+
+            //Check Book Already borrowed or not using the ID
+            if(!borrowedBookService.checkBookAlreadyBorrowed(bookId)){
+                responseModel.setCode(ResponseModel.RETURN_BOOK_FAILED_BOOK_NOT_BORROW);
+                responseModel.setMessage(ResponseModel.getResponseMsg(ResponseModel.RETURN_BOOK_FAILED_BOOK_NOT_BORROW));
+                return ResponseEntity.status(HttpStatus.OK).body(responseModel);
+            }
+
             BorrowedBook returnedBook = borrowedBookService.returnBook(bookId);
 
             responseModel.setCode(ResponseModel.RETURN_BOOK_SUCCESS);

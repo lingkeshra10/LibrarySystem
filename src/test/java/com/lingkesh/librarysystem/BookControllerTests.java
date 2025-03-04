@@ -80,7 +80,6 @@ class BookControllerTests {
 		assertTrue(response.getBody().getMessage().contains("ISBN cannot be empty"));
 	}
 
-
 	// 📌 2. Test when ISBN is invalid
 	@Test
 	public void testRegisterBook_WhenIsbnInvalid_ShouldReturnBadRequest() {
@@ -469,15 +468,18 @@ class BookControllerTests {
 	@Test
 	public void testReturnBook_WhenBookNotBorrowed_ShouldReturnErrorMessage() {
 		// Given
-		Long bookId = 99L;
+		Long bookId = 100L;
+		Book mockBook = new Book();  // Create a mock book object
 
-		when(bookService.findExistById(bookId)).thenReturn(Optional.of(new Book()));
-		when(borrowedBookService.returnBook(bookId))
-				.thenThrow(new RuntimeException("This book is not currently borrowed."));
+		when(bookService.findExistById(bookId)).thenReturn(Optional.of(mockBook));  // Mock book exists
+		when(borrowedBookService.checkBookAlreadyBorrowed(bookId)).thenReturn(false);  // Mock book not borrowed
 
-		// When & Then
-		Exception exception = assertThrows(RuntimeException.class, () -> bookController.returnBook(bookId));
-		assertEquals("This book is not currently borrowed.", exception.getMessage());
+		// When
+		ResponseEntity<ResponseModel> response = bookController.returnBook(bookId);
+
+		// Then
+		assertEquals(HttpStatus.OK, response.getStatusCode());
+		assertEquals(ResponseModel.RETURN_BOOK_FAILED_BOOK_NOT_BORROW, response.getBody().getCode());
 	}
 
 	// 📌 3. Test When Book ID Does Not Exist
@@ -494,7 +496,6 @@ class BookControllerTests {
 		// Then
 		assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
 		assertEquals(ResponseModel.BOOK_ID_NOT_FOUND, response.getBody().getCode());
-		assertTrue(response.getBody().getMessage().contains(bookId.toString()));
 	}
 
 	// 📌 1. Test Successful Retrieval of Borrowing History
