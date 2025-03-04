@@ -27,7 +27,7 @@ jobs:
         run: mvn clean package
 
       - name: Build Docker Image
-        run: docker build -t lingkesh/librarysystem:latest .
+        run: docker build -t lingkeshra10/librarysystem:latest .
 
       - name: Push to Docker Hub
         run: |
