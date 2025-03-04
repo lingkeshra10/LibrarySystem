@@ -454,6 +454,7 @@ class BookControllerTests {
 
 		when(bookService.findExistById(bookId)).thenReturn(Optional.of(book));
 		when(borrowedBookService.returnBook(bookId)).thenReturn(borrowedBook);
+		when(borrowedBookService.checkBookAlreadyBorrowed(bookId)).thenReturn(true);
 
 		// When
 		ResponseEntity<ResponseModel> response = bookController.returnBook(bookId);
