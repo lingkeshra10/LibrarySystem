@@ -32,8 +32,8 @@ jobs:
       - name: Push to Docker Hub
         run: |
           echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-          docker tag lingkesh/librarysystem:latest lingkesh/librarysystem:v1
-          docker push lingkesh/librarysystem:v1
+          docker tag lingkeshra10/librarysystem:latest lingkeshra10/librarysystem:v1
+          docker push lingkeshra10/librarysystem:v1
 
 #      - name: Deploy to Server
 #        uses: appleboy/ssh-action@master
